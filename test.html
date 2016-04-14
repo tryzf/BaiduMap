@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div class="map">快点我快点</div>
+    <ul id="map_list">
+      <li data-address="杭州市西湖区西溪创业园" data-addr= "杭州市">杭州市西湖区西溪创业园</li>
+      <li data-address="浙江经济职业技术学院" data-addr= "杭州市">浙江经济职业技术学院</li>
+      <li data-address="温州火车南站" data-addr= "温州市">温州时代广场</li>
+    </ul>
+    <div style="width:700px;height:550px;border:#ccc solid 1px;font-size:12px" id="map"></div>
+  <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+   <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=D1c84e7ced620bb2e3651144955ccce3"></script>
+  <script src="QMap.js"></script>
+  <script>
+      var ops = { obj: "#map_list li" }
+      var QMap = new QMap(ops);
+  </script>
+  </body>
+</html>
