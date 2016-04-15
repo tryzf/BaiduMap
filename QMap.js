@@ -1,26 +1,27 @@
 ;(function($){
    var QMap = function(ops){
       var self = this;
-      self.address = ops.address || "温州市苍南县灵溪镇观美社区观美中学";   //默认详细地址地址
-      self.addr = ops.addr || "温州市";        //默认市
-      self.company_name = ops.company_name || "Tryzf网络公司"; //默认单位
+      self.address = ops.address || ops.default_address;   //默认详细地址地址
+      self.addr = ops.addr || ops.default_city;        //默认市
+      self.company_name = ops.company_name || ops.default_company_name; //默认单位
       self.point = null;                  //定义一个经纬度返回对象
-      self.default_lng = 120.36948;                //默认经度
-      self.default_lat = 27.467101;       //默认纬度
-
-      $(ops.obj).click(function(){        //获取当前地址点击事件
+      self.default_lng = ops.default_lng;       //默认经度
+      self.default_lat = ops.default_lat;       //默认纬度
+      self.map_box = ops.map_box;             //默认容器id
+      $(ops.obj).click(function(){        //点击事件：获取当前位置进行创建新地图
           var $this    = $(this),
               address  = $this.attr('data-address'),
               addr     = $this.attr('data-addr');
+              company_name = $this.text();
           self.address = address;
           self.addr = addr;
-          self.getAdressId(function(){
-              self.creatNewMap(self.point);
-          });
+          self.company_name = company_name;
+          self.getAdressId();
       });
+      self.getAdressId();      //  页面加载第一次的默认地图
    };
    QMap.prototype = {
-        getAdressId:function(callback){            //获取经纬度
+        getAdressId:function(){            //获取经纬度
             // 创建地址解析器实例
             var self = this;
             var myGeo = new BMap.Geocoder();
@@ -28,7 +29,7 @@
             myGeo.getPoint(this.address, function(point){
               if (point) {
                   self.point = point;
-                  callback();
+                  self.creatNewMap(self.point);
               }else{
                   self.point = null;
               }
@@ -49,7 +50,7 @@
         },
         createMap: function(){
             var self = this;
-            map = new BMap.Map("map");
+            map = new BMap.Map(self.map_box);
             map.centerAndZoom(new BMap.Point(self.lng,self.lat),19);
         },
         setMapEvent: function(){
