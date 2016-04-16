@@ -8,17 +8,20 @@
       self.default_lng = ops.default_lng;       //默认经度
       self.default_lat = ops.default_lat;       //默认纬度
       self.map_box = ops.map_box;             //默认容器id
-      $(ops.obj).click(function(){        //点击事件：获取当前位置进行创建新地图
-          var $this    = $(this),
-              address  = $this.attr('data-address'),
-              addr     = $this.attr('data-addr');
-              company_name = $this.text();
-          self.address = address;
-          self.addr = addr;
-          self.company_name = company_name;
-          self.getAdressId();
-      });
+      this.bodyNode = $(document.body);
+      
       self.getAdressId();      //  页面加载第一次的默认地图
+      this.bodyNode.delegate(ops.obj,'click', function(e){          //点击事件：获取当前位置进行创建新地图
+            e.stopPropagation();                                   //阻止事件冒泡
+             var $this    = $(this),
+                  address  = $this.attr('data-address'),
+                  addr     = $this.attr('data-addr');
+                  company_name = $this.text();
+              self.address = address;
+              self.addr = addr;
+              self.company_name = company_name;
+              self.getAdressId();
+      });   
    };
    QMap.prototype = {
         getAdressId:function(){            //获取经纬度
